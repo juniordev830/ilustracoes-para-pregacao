@@ -30,6 +30,10 @@ from datetime import date
 
 
 def run(data):
+    if not isinstance(data, dict):
+        raise ValueError("A entrada deve ser um objeto JSON.")
+    if not isinstance(data["ilustracoes"], list) or any(not isinstance(item, dict) for item in data["ilustracoes"]):
+        raise ValueError("O campo ilustracoes deve ser uma lista de objetos.")
     tema = chave(data["tema"])
     hoje = date.fromisoformat(texto(data["data_sermao"]))
     intervalo = inteiro(data["intervalo_dias"])
@@ -73,3 +77,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+
