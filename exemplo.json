@@ -1,0 +1,25 @@
+{
+  "tema": "serviço",
+  "data_sermao": "2026-12-06",
+  "intervalo_dias": 30,
+  "ilustracoes": [
+    {
+      "titulo": "Mutirão da comunidade",
+      "temas": [
+        "serviço"
+      ],
+      "resumo": "Divisão de tarefas em um mutirão fictício.",
+      "origem": "Ilustração original fictícia.",
+      "ultimo_uso": null
+    },
+    {
+      "titulo": "Escala de voluntários",
+      "temas": [
+        "serviço"
+      ],
+      "resumo": "Revezamento de voluntários em uma situação fictícia.",
+      "origem": "Ilustração original fictícia.",
+      "ultimo_uso": "2026-11-22"
+    }
+  ]
+}

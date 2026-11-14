@@ -1,2 +1,20 @@
-# ilustracoes-para-pregacao
-Organize ilustrações para mensagens por assunto.
+# Arquivo de ilustrações para pregação
+
+Encontre ilustrações por assunto e veja quando cada uma foi usada pela última vez.
+
+## Rodar
+
+Python 3.10 ou mais recente. Cada execução lê um JSON local e imprime outro JSON no terminal.
+
+```bash
+python app.py exemplo.json
+python -m unittest -v
+```
+
+## Uso
+
+Registre assunto, resumo, origem e data do último uso. O filtro permite reservar um intervalo entre usos. Itens sem data de uso aparecem primeiro.
+
+## Fontes e exemplos
+
+Os exemplos incluem referências bíblicas, perguntas e anotações de demonstração. Consulte o texto e o contexto em uma [tradução publicada pela Sociedade Bíblica do Brasil](https://www.sbb.org.br/traducoes-da-biblia). Para aprofundar, o catálogo da [Nova Bíblia de Estudo Almeida](https://www.sbb.org.br/nova-almeida/biblias-de-estudo/biblia-de-estudo-almeida) e o do [Comentário Bíblico Pentecostal do Novo Testamento, CPAD](https://www.cpad.com.br/comentario-biblico-pentecostal-novo-testamento-/p) ajudam a identificar edições. Registre as páginas verificadas na sua própria consulta.

@@ -1,0 +1,75 @@
+'Encontre ilustrações por assunto e veja quando cada uma foi usada pela última vez.'
+
+
+from unicodedata import combining, normalize
+
+
+def texto(value):
+    if not isinstance(value, str) or not value.strip():
+        raise ValueError("Use texto não vazio.")
+    return value.strip()
+
+
+def textos(items):
+    if not isinstance(items, list):
+        raise ValueError("Use uma lista de textos.")
+    return [texto(item) for item in items]
+
+
+def inteiro(value, minimo=0):
+    if type(value) is not int or value < minimo:
+        raise ValueError(f"Use um número inteiro a partir de {minimo}.")
+    return value
+
+
+def chave(value):
+    return "".join(c for c in normalize("NFKD", texto(value).casefold()) if not combining(c))
+
+
+from datetime import date
+
+
+def run(data):
+    tema = chave(data["tema"])
+    hoje = date.fromisoformat(texto(data["data_sermao"]))
+    intervalo = inteiro(data["intervalo_dias"])
+    sugeridas, recentes = [], []
+    for item in data["ilustracoes"]:
+        if tema not in {chave(t) for t in textos(item["temas"])}:
+            continue
+        uso = item.get("ultimo_uso")
+        dia = None if uso is None else date.fromisoformat(texto(uso))
+        if dia is not None and dia > hoje:
+            raise ValueError("O último uso precisa ser anterior ou igual à data do sermão.")
+        resultado = {k: texto(item[k]) for k in ("titulo", "resumo", "origem")}
+        resultado["ultimo_uso"] = dia.isoformat() if dia else None
+        grupo = sugeridas if dia is None or (hoje - dia).days >= intervalo else recentes
+        grupo.append(resultado)
+    sugeridas.sort(key=lambda item: (item["ultimo_uso"] or "", item["titulo"]))
+    return {"sugeridas": sugeridas, "usadas_recentemente": recentes}
+
+
+import argparse
+import json
+from pathlib import Path
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("entrada", type=Path, help="Arquivo JSON com os dados")
+    args = parser.parse_args()
+
+    try:
+        with args.entrada.open(encoding="utf-8") as source:
+            data = json.load(source)
+        if not isinstance(data, dict):
+            raise ValueError("A entrada deve ser um objeto JSON.")
+        result = run(data)
+    except (KeyError, TypeError, ValueError, OSError) as exc:
+        parser.exit(2, f"Erro nos dados ou na execução: {exc}\n")
+
+    print(json.dumps(result, ensure_ascii=False, indent=2, allow_nan=False))
+
+
+if __name__ == "__main__":
+    main()
