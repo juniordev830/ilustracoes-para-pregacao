@@ -15,6 +15,19 @@ class ProjetoTest(unittest.TestCase):
         result = run(data)
         self.assertEqual(result['sugeridas'], [{'titulo': 'Mutirão da comunidade', 'resumo': 'Divisão de tarefas em um mutirão fictício.', 'origem': 'Ilustração original fictícia.', 'ultimo_uso': None}])
 
+    def test_usos_recentes_aparecem_do_mais_novo_ao_mais_antigo(self):
+        comum = {"temas": ["fé"], "resumo": "Resumo", "origem": "Arquivo local"}
+        result = run({
+            "tema": "fé", "data_sermao": "2026-11-15", "intervalo_dias": 10,
+            "ilustracoes": [
+                dict(comum, titulo="Primeiro uso", ultimo_uso="2026-11-08"),
+                dict(comum, titulo="Zebra", ultimo_uso="2026-11-14"),
+                dict(comum, titulo="Água", ultimo_uso="2026-11-14"),
+            ],
+        })
+        self.assertEqual([item["titulo"] for item in result["usadas_recentemente"]],
+                         ["Água", "Zebra", "Primeiro uso"])
+
     def test_cli_com_exemplo(self):
         result = subprocess.run(
             [sys.executable, str(ROOT / "app.py"), str(ROOT / "exemplo.json")],
