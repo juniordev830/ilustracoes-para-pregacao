@@ -50,6 +50,7 @@ def run(data):
         grupo = sugeridas if dia is None or (hoje - dia).days >= intervalo else recentes
         grupo.append(resultado)
     sugeridas.sort(key=lambda item: (item["ultimo_uso"] or "", item["titulo"]))
+    recentes.sort(key=lambda item: (-date.fromisoformat(item["ultimo_uso"]).toordinal(), chave(item["titulo"])))
     return {"sugeridas": sugeridas, "usadas_recentemente": recentes}
 
 
