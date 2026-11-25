@@ -51,7 +51,13 @@ def run(data):
         grupo.append(resultado)
     sugeridas.sort(key=lambda item: (item["ultimo_uso"] or "", item["titulo"]))
     recentes.sort(key=lambda item: (-date.fromisoformat(item["ultimo_uso"]).toordinal(), chave(item["titulo"])))
-    return {"sugeridas": sugeridas, "usadas_recentemente": recentes}
+    resultado = {"sugeridas": sugeridas, "usadas_recentemente": recentes}
+    if "limite_sugestoes" in data:
+        limite = inteiro(data["limite_sugestoes"], 1)
+        resultado["total_sugeridas"] = len(sugeridas)
+        resultado["sugeridas"] = sugeridas[:limite]
+        resultado["sugeridas_omitidas"] = max(0, len(sugeridas) - limite)
+    return resultado
 
 
 import argparse
