@@ -28,3 +28,8 @@ Também é possível encadear a ferramenta com outro comando usando `-` como ent
 ```bash
 cat exemplo.json | python app.py -
 ```
+
+
+## Novo recurso
+
+O campo opcional `limite_sugestoes` restringe a quantidade de recomendações mantendo a ordem existente. A resposta informa o total disponível e quantas sugestões ficaram de fora; ilustrações recentes continuam visíveis.
